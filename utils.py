@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from supervision.draw.color import Color
 from supervision.geometry.dataclasses import Point
-import time
 
 class TimeEstimator:
     def __init__(self):
@@ -30,7 +29,7 @@ class TimeEstimator:
             return False
         
         current_player_x = player_position[0]
-        return  self.start_bottle_line -3 <= current_player_x <= self.start_bottle_line+3
+        return current_player_x <= self.start_bottle_line
 
 class TimeAnnotator:
     def __init__(
@@ -57,8 +56,7 @@ class TimeAnnotator:
         if self.start_time is not None and self.end_time is not None:
             time_text = f"Time: {self.end_time - self.start_time:.2f} seconds"
         else:
-            time_text = f"Time: {time.time() - self.start_time:.2f} seconds"
-
+            time_text = "Tracking..."
 
         (text_width, text_height), _ = cv2.getTextSize(
             time_text, cv2.FONT_HERSHEY_SIMPLEX, self.text_scale, self.text_thickness

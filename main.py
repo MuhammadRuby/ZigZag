@@ -21,8 +21,8 @@ CLASS_NAMES_DICT = model.model.names
 # get class id ball and bottle
 CLASS_ID = [32, 39]
 
-SOURCE_VIDEO_PATH = f"/content/drive/MyDrive/graduation_project/Data /zigzag_dribbling/IMG_6130.MOV"
-TARGET_VIDEO_PATH = f"/content/drive/MyDrive/graduation_project/dribbling_zig_zag/try6130_m.MOV"
+SOURCE_VIDEO_PATH = f"dataset\zigzag.mp4"
+TARGET_VIDEO_PATH = f"dataset\zigzag_result.mp4"
 
 # create VideoInfo instance
 video_info = VideoInfo.from_video_path(SOURCE_VIDEO_PATH)
@@ -67,10 +67,12 @@ with VideoSink(TARGET_VIDEO_PATH, video_info) as sink:
             print(f"player has been found at {player_position}")
         # Detect bottles and 
         bottles_detected = [detections.xyxy[i] for i, class_id in enumerate(detections.class_id) if CLASS_NAMES_DICT[class_id] == "bottle"]
-  # # check if any bottle falls
-  # if any((bottle[2] - bottle[0]) > (bottle[3] - bottle[1]) for bottle in bottles_detected):
-  #     print("Fail: A bottle has fallen")
-  #     break
+        # # check if any bottle falls
+        # if any((bottle[2] - bottle[0]) > (bottle[3] - bottle[1]) for bottle in bottles_detected):
+        #     print("Fail: A bottle has fallen")
+        #     break
+
+        
         # #searching for nearest bottle before checking crossing line
         if len(bottles_detected) >= 2 and  not found_nearest_bottle:
             nearest_bottle = time_estimator.set_start_bottle(player_position, bottles_detected)
